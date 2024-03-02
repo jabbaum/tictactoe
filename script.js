@@ -84,6 +84,10 @@ const GameLogic = (function(){
             currentTurn = 1;
         }
     }
+    const PlaceAt = (index) => {
+        let thisSymbol = players[currentTurn-1].symbol;
+        Gameboard.Place(index, thisSymbol);
+    }
     const ManagePlay = () => {
         if (plays.length === 0) {
             let introMessage = 'Welcome to Tic Tac Toe. To play, ' + Player1.name + ' must place the first tile ' + Player1.symbol + '.';
@@ -100,6 +104,7 @@ const GameLogic = (function(){
     return {
         AddPlay,
         ManagePlay,
+        PlaceAt,
         players,
         plays
     }
