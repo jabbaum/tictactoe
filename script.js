@@ -95,7 +95,7 @@ const GameLogic = (function(){
         } else if (plays.length > 0) {
             changeTurn();
             let player = players[currentTurn-1];
-            playMessage = `Woo! now it is ${player.name}'s turn!`
+            playMessage = `Woo! now it is ${player.name}'s turn! Here is the current board ${Gameboard.DisplayBoard()}`
             console.log(playMessage);
         }
 
