@@ -8,9 +8,11 @@ const Gameboard = (function(){
     const Place = (index, symbol) => {
         if(gameboard[index] !== 'X' && gameboard[index] !== 'Y') {
             gameboard[index] = symbol
+            CheckWinner(index);
+            currentPlay = [index, symbol];
+            GameLogic.AddPlay(currentPlay)
             
-            
-            return CheckWinner(index);
+            return GameLogic.ManagePlay();
 
         } else {
             console.log(`Cell ${index} is taken, sorry.`);
@@ -75,8 +77,8 @@ const GameLogic = (function(){
 
     const IncrementRounds = () => rounds = rounds++;
     const AddPlay = (play) => plays.push(play);
-    const changeTurn = (lastTurn) => {
-        if(lastTurn == 1) {
+    const changeTurn = () => {
+        if(currentTurn == 1) {
         currentTurn = 2;
         } else {
             currentTurn = 1;
@@ -86,6 +88,11 @@ const GameLogic = (function(){
         if (plays.length === 0) {
             let introMessage = 'Welcome to Tic Tac Toe. To play, ' + Player1.name + ' must place the first tile ' + Player1.symbol + '.';
             console.log(introMessage);
+        } else if (plays.length > 0) {
+            changeTurn();
+            let player = players[currentTurn-1];
+            playMessage = `Woo! now it is ${player.name}'s turn!`
+            console.log(playMessage);
         }
 
 
@@ -93,7 +100,8 @@ const GameLogic = (function(){
     return {
         AddPlay,
         ManagePlay,
-        players
+        players,
+        plays
     }
     
 
