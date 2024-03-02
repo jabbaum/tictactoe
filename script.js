@@ -8,14 +8,17 @@ const Gameboard = (function(){
     const Place = (index, symbol) => {
         if(gameboard[index] !== 'X' && gameboard[index] !== 'Y') {
             gameboard[index] = symbol
-            return checkWinner(index);
+            
+            
+            return CheckWinner(index);
+
         } else {
             console.log(`Cell ${index} is taken, sorry.`);
             return null;
         }
     };
 
-    const checkWinner = (index) => {
+    const CheckWinner = (index) => {
         let winCondHorz = [0, 0, 0];
         let winCondVert = [0, 0, 0];
         let winCondDiag = [0, 0];
@@ -49,21 +52,26 @@ const Gameboard = (function(){
     return {
         Place,
         DisplayBoard,
-        checkWinner
+        CheckWinner
     }
 })();
 
 function createPlayer(name, symbol) {
     return {name, symbol};
 }
-const Player1 = createPlayer('Player 1', 'X');
-const Player2 = createPlayer('Player 2', 'O');
+
 
 const GameLogic = (function(){
     let winner = null;
     let plays = [];
     let rounds = 0;
     let currentTurn = 1;
+    let players = [];
+
+    const Player1 = createPlayer('Player 1', 'X');
+    const Player2 = createPlayer('Player 2', 'O');
+    players.push(Player1);
+    players.push(Player2);
 
     const IncrementRounds = () => rounds = rounds++;
     const AddPlay = (play) => plays.push(play);
@@ -74,15 +82,24 @@ const GameLogic = (function(){
             currentTurn = 1;
         }
     }
+    const ManagePlay = () => {
+        if (plays.length === 0) {
+            let introMessage = 'Welcome to Tic Tac Toe. To play, ' + Player1.name + ' must place the first tile ' + Player1.symbol + '.';
+            console.log(introMessage);
+        }
+
+
+    }
+    return {
+        AddPlay,
+        ManagePlay,
+        players
+    }
     
 
 })();
 
-console.log(Gameboard.Place(0, 'X'));
-Gameboard.Place(1, 'Y');
-Gameboard.Place(4, 'X');
-console.log(Gameboard.Place(4, 'Y'));
-Gameboard.Place(2, 'Y');
-Gameboard.Place(8, 'X');
+
 
 console.log(Gameboard.DisplayBoard());
+GameLogic.ManagePlay();
