@@ -6,7 +6,7 @@ const Gameboard = (function(){
         6,7,8
     ];
     const Place = (index, symbol) => {
-        if(gameboard[index] !== 'X' && gameboard[index] !== 'Y') {
+        if(gameboard[index] !== 'X' && gameboard[index] !== 'O') {
             gameboard[index] = symbol
             CheckWinner(index);
             currentPlay = [index, symbol];
