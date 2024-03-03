@@ -1,14 +1,28 @@
 // iife module pattern
 const Gameboard = (function(){
     let gameboard=[
-        0,1,2,
-        3,4,5,
-        6,7,8
+        [0,1,2],
+        [3,4,5],
+        [6,7,8]
+    ];
+    const BoardLocator = [
+        [0, 0],
+        [0, 1],
+        [0, 2],
+        [1, 0],
+        [1, 1],
+        [1, 2],
+        [2, 0],
+        [2, 1],
+        [2, 2]
     ];
     const Place = (index, symbol) => {
-        if(gameboard[index] !== 'X' && gameboard[index] !== 'O') {
-            gameboard[index] = symbol
-            CheckWinner(index);
+        const AdjustedIndex1 = BoardLocator[index][0];
+        const AdjustedIndex2 = BoardLocator[index][1];
+        const GameboardIndexLoc = gameboard[AdjustedIndex1][AdjustedIndex2];
+        if(GameboardIndexLoc !== 'X' && GameboardIndexLoc !== 'O') {
+            GameboardIndexLoc = symbol
+            CheckWinner(GameboardIndexLoc);
             currentPlay = [index, symbol];
             GameLogic.AddPlay(currentPlay)
             
@@ -20,34 +34,35 @@ const Gameboard = (function(){
         }
     };
 
-    const CheckWinner = (index) => {
-        let winCondHorz = [0, 0, 0];
-        let winCondVert = [0, 0, 0];
-        let winCondDiag = [0, 0];
-        let currentSymbol = gameboard[index];
-        if(gameboard[0] === currentSymbol && gameboard[1] === currentSymbol && gameboard[2] === currentSymbol) {
-            winCondHorz[0] = 1;
-        } else if (gameboard[3] === currentSymbol && gameboard[4] === currentSymbol && gameboard[5] === currentSymbol) {
-            winCondHorz[1] = 1;
-        } else if (gameboard[6] === currentSymbol && gameboard[7] === currentSymbol && gameboard[8] === currentSymbol) {
-            winCondHorz[2] = 1;
-        } else if(gameboard[0] === currentSymbol && gameboard[3] === currentSymbol && gameboard[6] === currentSymbol) {
-            winCondVert[0] = 1;
-        } else if(gameboard[1] === currentSymbol && gameboard[4] === currentSymbol && gameboard[7] === currentSymbol) {
-            winCondVert[1] = 1;
-        } else if(gameboard[2] === currentSymbol && gameboard[5] === currentSymbol && gameboard[8] === currentSymbol) {
-            winCondVert[2] = 1;
-        } else if (gameboard[0] === currentSymbol && gameboard[4] === currentSymbol && gameboard[8] === currentSymbol) {
-            winCondDiag[0] = 1;
-        } else if (gameboard[2] === currentSymbol && gameboard[4] === currentSymbol && gameboard[6] === currentSymbol) {
-            winCondDiag[1] = 1;
-        };
-        return {
-            winCondVert,
-            winCondHorz,
-            winCondDiag
-        }
-    }
+    // Need to convert to check the 2d array correctly
+    // const CheckWinner = (index) => {
+    //     let winCondHorz = [0, 0, 0];
+    //     let winCondVert = [0, 0, 0];
+    //     let winCondDiag = [0, 0];
+    //     let currentSymbol = gameboard[index];
+    //     if(gameboard[0] === currentSymbol && gameboard[1] === currentSymbol && gameboard[2] === currentSymbol) {
+    //         winCondHorz[0] = 1;
+    //     } else if (gameboard[3] === currentSymbol && gameboard[4] === currentSymbol && gameboard[5] === currentSymbol) {
+    //         winCondHorz[1] = 1;
+    //     } else if (gameboard[6] === currentSymbol && gameboard[7] === currentSymbol && gameboard[8] === currentSymbol) {
+    //         winCondHorz[2] = 1;
+    //     } else if(gameboard[0] === currentSymbol && gameboard[3] === currentSymbol && gameboard[6] === currentSymbol) {
+    //         winCondVert[0] = 1;
+    //     } else if(gameboard[1] === currentSymbol && gameboard[4] === currentSymbol && gameboard[7] === currentSymbol) {
+    //         winCondVert[1] = 1;
+    //     } else if(gameboard[2] === currentSymbol && gameboard[5] === currentSymbol && gameboard[8] === currentSymbol) {
+    //         winCondVert[2] = 1;
+    //     } else if (gameboard[0] === currentSymbol && gameboard[4] === currentSymbol && gameboard[8] === currentSymbol) {
+    //         winCondDiag[0] = 1;
+    //     } else if (gameboard[2] === currentSymbol && gameboard[4] === currentSymbol && gameboard[6] === currentSymbol) {
+    //         winCondDiag[1] = 1;
+    //     };
+    //     return {
+    //         winCondVert,
+    //         winCondHorz,
+    //         winCondDiag
+    //     }
+    // }
 
     const DisplayBoard = () => gameboard;
 
