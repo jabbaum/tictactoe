@@ -19,10 +19,10 @@ const Gameboard = (function(){
     const Place = (index, symbol) => {
         const AdjustedIndex1 = BoardLocator[index][0];
         const AdjustedIndex2 = BoardLocator[index][1];
-        const GameboardIndexLoc = gameboard[AdjustedIndex1][AdjustedIndex2];
-        if(GameboardIndexLoc !== 'X' && GameboardIndexLoc !== 'O') {
-            GameboardIndexLoc = symbol
-            CheckWinner(GameboardIndexLoc);
+        
+        if(gameboard[AdjustedIndex1][AdjustedIndex2] !== 'X' && gameboard[AdjustedIndex1][AdjustedIndex2] !== 'O') {
+            gameboard[AdjustedIndex1][AdjustedIndex2] = symbol
+            // CheckWinner(gameboard[AdjustedIndex1][AdjustedIndex2]);
             currentPlay = [index, symbol];
             GameLogic.AddPlay(currentPlay)
             
@@ -68,8 +68,8 @@ const Gameboard = (function(){
 
     return {
         Place,
-        DisplayBoard,
-        CheckWinner
+        DisplayBoard
+        // CheckWinner
     }
 })();
 
