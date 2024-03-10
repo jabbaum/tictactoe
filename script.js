@@ -1,8 +1,8 @@
 // iife module pattern
 const Gameboard = (function(){
     let gameboard=[
-        [0,1,2],
-        [3,4,5],
+        ['X',1,2],
+        [3,'X',5],
         [6,7,8]
     ];
     const BoardLocator = [
@@ -79,7 +79,7 @@ const Gameboard = (function(){
         }
         const CheckDiagnol = (row, column) => {
             
-            if ((row === 0 && column === 1) || (row === 2 && (column === 0 || column === 2)) || (row ===2 && column === 1)) {
+            if ((row === 0 && column === 1) || (row === 1 && (column === 0 || column === 2)) || (row ===2 && column === 1)) {
                 return;
             } else {
                 if (gameboard[0][0] === gameboard[1][1] && gameboard[0][0] === gameboard[2][2]) {
@@ -107,11 +107,17 @@ const Gameboard = (function(){
     }
 
     const DisplayBoard = () => gameboard;
+    const ResetGameboard = () => gameboard=[
+        [0,1,2],
+        [3,4,5],
+        [6,7,8]
+    ];
 
     return {
         Place,
         DisplayBoard,
-        CheckWinner
+        CheckWinner,
+        ResetGameboard
     }
 })();
 
@@ -153,6 +159,10 @@ const GameLogic = (function(){
             changeTurn();
             if (Gameboard.CheckWinner(index)) {
                 console.log('Winner! Game Over.');
+                Gameboard.ResetGameboard();
+                plays = [];
+                currentTurn = 1;
+                return ManagePlay();
             }
             let player = players[currentTurn-1];
             playMessage = `Woo! now it is ${player.name}'s turn! Here is the current board ${Gameboard.DisplayBoard()}`
