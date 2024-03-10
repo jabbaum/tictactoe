@@ -36,7 +36,7 @@ const Gameboard = (function(){
             currentPlay = [index, symbol];
             GameLogic.AddPlay(currentPlay)
             
-            return GameLogic.ManagePlay();
+            return GameLogic.ManagePlay(index);
 
         } else {
             console.log(`Cell ${index} is taken, sorry.`);
@@ -45,7 +45,7 @@ const Gameboard = (function(){
     };
 
     const CheckWinner = (index) => {
-        AdjustLocation(index);
+        const Adjusted = AdjustLocation(index);
         let winCondHorz = [0, 0, 0];
         let winCondVert = [0, 0, 0];
         let winCondDiag = [0, 0];
@@ -92,6 +92,9 @@ const Gameboard = (function(){
                 }
             }
         }
+        CheckRow(Adjusted.AdjustedRow);
+        CheckColumn(Adjusted.AdjustedColumn);
+        CheckDiagnol(Adjusted.AdjustedRow, Adjusted.AdjustedColumn);
         if (winOccured) {
             return {
                 winCondVert,
@@ -107,8 +110,8 @@ const Gameboard = (function(){
 
     return {
         Place,
-        DisplayBoard
-        // CheckWinner
+        DisplayBoard,
+        CheckWinner
     }
 })();
 
@@ -142,12 +145,15 @@ const GameLogic = (function(){
         let thisSymbol = players[currentTurn-1].symbol;
         Gameboard.Place(index, thisSymbol);
     }
-    const ManagePlay = () => {
+    const ManagePlay = (index) => {
         if (plays.length === 0) {
             let introMessage = 'Welcome to Tic Tac Toe. To play, ' + Player1.name + ' must place the first tile ' + Player1.symbol + '.';
             console.log(introMessage);
         } else if (plays.length > 0) {
             changeTurn();
+            if (Gameboard.CheckWinner(index)) {
+                console.log('Winner! Game Over.');
+            }
             let player = players[currentTurn-1];
             playMessage = `Woo! now it is ${player.name}'s turn! Here is the current board ${Gameboard.DisplayBoard()}`
             console.log(playMessage);
