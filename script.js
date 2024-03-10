@@ -49,14 +49,16 @@ const Gameboard = (function(){
         let winCondHorz = [0, 0, 0];
         let winCondVert = [0, 0, 0];
         let winCondDiag = [0, 0];
-        let currentSymbol = gameboard[AdjustedRow][AdjustedColumn];
+        let winOccured = 0;
 
         const CheckRow = (row) => {
             let rowCells = ['empty', 'empty', 'empty'];
             for (let index = 0; index < gameboard[row].length; index++) {
                 rowCells[index] = gameboard[row][index];
             }
-            if (rowCells[0] === rowCells[1] && rowCells[0] === rowCells2) {
+            if (rowCells[0] === rowCells[1] && rowCells[0] === rowCells[2]) {
+                winCondHorz[row] = 1;
+                winOccured+=1;
                 return 1;
             } else {
                 return 0;
@@ -67,41 +69,37 @@ const Gameboard = (function(){
             for (let index = 0; index < gameboard.length; index++) {
                 columnCells[index] = gameboard[index][column]
             }
+            if (columnCells[0] === columnCells[1] && columnCells[0] === columnCells[2]) {
+                winCondVert[column] = 1;
+                winOccured+=1;
+                return 1;
+            } else {
+                return 0;
+            }
         }
         const CheckDiagnol = (row, column) => {
-            const DiagTLBR = [[0,0], [1, 1], [2, 2]];
-            const DiagBLTR = [[2, 0], [1, 1], [0, 2]];
+            
             if ((row === 0 && column === 1) || (row === 2 && (column === 0 || column === 2)) || (row ===2 && column === 1)) {
                 return;
             } else {
-                for (let index = 0; index < winCondDiag.length; index++) {
-                    
+                if (gameboard[0][0] === gameboard[1][1] && gameboard[0][0] === gameboard[2][2]) {
+                    winCondDiag[0] = 1;
+                    winOccured+=1;
+                }
+                if (gameboard[2][0] === gameboard[1][1] && gameboard[2][0] === gameboard[0][2]) {
+                    winCondDiag[1] = 1;
+                    winOccured+=1;
                 }
             }
         }
-
-
-        if(gameboard[0] === currentSymbol && gameboard[1] === currentSymbol && gameboard[2] === currentSymbol) {
-            winCondHorz[0] = 1;
-        } else if (gameboard[3] === currentSymbol && gameboard[4] === currentSymbol && gameboard[5] === currentSymbol) {
-            winCondHorz[1] = 1;
-        } else if (gameboard[6] === currentSymbol && gameboard[7] === currentSymbol && gameboard[8] === currentSymbol) {
-            winCondHorz[2] = 1;
-        } else if(gameboard[0] === currentSymbol && gameboard[3] === currentSymbol && gameboard[6] === currentSymbol) {
-            winCondVert[0] = 1;
-        } else if(gameboard[1] === currentSymbol && gameboard[4] === currentSymbol && gameboard[7] === currentSymbol) {
-            winCondVert[1] = 1;
-        } else if(gameboard[2] === currentSymbol && gameboard[5] === currentSymbol && gameboard[8] === currentSymbol) {
-            winCondVert[2] = 1;
-        } else if (gameboard[0] === currentSymbol && gameboard[4] === currentSymbol && gameboard[8] === currentSymbol) {
-            winCondDiag[0] = 1;
-        } else if (gameboard[2] === currentSymbol && gameboard[4] === currentSymbol && gameboard[6] === currentSymbol) {
-            winCondDiag[1] = 1;
-        };
-        return {
-            winCondVert,
-            winCondHorz,
-            winCondDiag
+        if (winOccured) {
+            return {
+                winCondVert,
+                winCondHorz,
+                winCondDiag
+            } 
+        } else {
+            return 0;
         }
     }
 
