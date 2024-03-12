@@ -1,0 +1,69 @@
+body {
+    background-image: url("./images/so-white.png");
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-size: 2.5rem;
+}
+.instructions {
+    font-size: 1.2rem;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+}
+
+.board {
+    width: 480px;
+    height: 480px;
+    background-color: #659360;
+    border-radius: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 45px;
+    box-sizing: border-box;
+}
+
+.locationHolder {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.location {
+    box-sizing: border-box;
+    width: 112px;
+    height: 109px;
+    background-image: url("./images/woodBlock.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-bottom: 7px solid #ba8c49;
+    border-right: 4px solid #a07235;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.location:hover {
+    border-bottom: 5px solid #ba8c49;
+    border-right: 2px solid #a07235;
+}
+.symbolX, .symbolY {
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+}
+.symbolX {
+    background-image: url("./images/xSymbol.svg");
+}
+.symbolY {
+    background-image: url("./images/ySymbol.svg");
+
+}
+
+
+
