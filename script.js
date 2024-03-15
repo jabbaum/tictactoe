@@ -221,6 +221,7 @@ const GameLogic = (function(){
         const OptionElement = document.querySelector('.options');
         const Pushable = document.createElement('button');
         Pushable.classList.add('pushable');
+        Pushable.addEventListener('click', ResetGame);
         const Shadow = document.createElement('span');
         Shadow.classList.add('shadow');
         const Edge = document.createElement('span');
