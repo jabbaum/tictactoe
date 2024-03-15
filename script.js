@@ -1,8 +1,8 @@
 // iife module pattern
 const Gameboard = (function(){
     let gameboard=[
-        ['X',1,2],
-        [3,'X',5],
+        [0,1,2],
+        [3,4,5],
         [6,7,8]
     ];
     const BoardLocator = [
@@ -39,7 +39,7 @@ const Gameboard = (function(){
             return GameLogic.ManagePlay(index);
 
         } else {
-            console.log(`Cell ${index} is taken, sorry.`);
+            UpdateInstructions(`Cell ${index} is taken, sorry.`);
             return null;
         }
     };
@@ -105,8 +105,41 @@ const Gameboard = (function(){
             return 0;
         }
     }
+    const LockBoard = () => {
+        const Locations = document.querySelectorAll('.location');
+        Locations.forEach(loc => {
+            loc.removeEventListener('click', GameLogic.PlaceAt);
+        });
+    };
 
-    const DisplayBoard = () => gameboard;
+    const DisplayBoard = () => {
+        let locationIterator = 0;
+        let locationHolder = [];
+        let locationHolderElement = document.querySelector('.locationHolder');
+        locationHolderElement.innerHTML = '';
+        gameboard.forEach(row => {
+            row.forEach(loc => {
+                let location = document.createElement('div');
+                location.classList.add('location');
+                location.setAttribute('id', locationIterator);
+                if (loc === 'X') {
+                    let xsymbol = document.createElement('div');
+                    xsymbol.classList.add('symbolX');
+                    location.appendChild(xsymbol);
+                } else if (loc === 'O') {
+                    let osymbol = document.createElement('div');
+                    osymbol.classList.add('symbolO');
+                    location.appendChild(osymbol);
+                }
+                locationIterator++;
+                location.addEventListener('click', GameLogic.PlaceAt);
+                locationHolder.push(location);
+            });
+        });
+        locationHolder.forEach(loc => {
+            locationHolderElement.appendChild(loc);
+        });
+    };
     const ResetGameboard = () => gameboard=[
         [0,1,2],
         [3,4,5],
@@ -117,7 +150,9 @@ const Gameboard = (function(){
         Place,
         DisplayBoard,
         CheckWinner,
-        ResetGameboard
+        ResetGameboard,
+        LockBoard,
+        gameboard
     }
 })();
 
@@ -147,30 +182,41 @@ const GameLogic = (function(){
             currentTurn = 1;
         }
     }
-    const PlaceAt = (index) => {
+    const PlaceAt = (event) => {
+        const Index = event.target.id;
         let thisSymbol = players[currentTurn-1].symbol;
-        Gameboard.Place(index, thisSymbol);
+        Gameboard.Place(Index, thisSymbol);
     }
     const ManagePlay = (index) => {
         if (plays.length === 0) {
             let introMessage = 'Welcome to Tic Tac Toe. To play, ' + Player1.name + ' must place the first tile ' + Player1.symbol + '.';
-            console.log(introMessage);
+            UpdateInstructions(introMessage);
         } else if (plays.length > 0) {
             changeTurn();
             if (Gameboard.CheckWinner(index)) {
-                console.log('Winner! Game Over.');
-                Gameboard.ResetGameboard();
-                plays = [];
-                currentTurn = 1;
+                Gameboard.DisplayBoard();
+                UpdateInstructions('Winner! Game Over.');
+                Gameboard.LockBoard();
                 return ManagePlay();
             }
             let player = players[currentTurn-1];
             playMessage = `Woo! now it is ${player.name}'s turn! Here is the current board ${Gameboard.DisplayBoard()}`
-            console.log(playMessage);
+            UpdateInstructions(playMessage);
         }
 
 
     }
+    const UpdateInstructions = (update) => {
+        const Instructions = document.querySelector('.instructions');
+        Instructions.innerText = update;
+    };
+    const ResetGame = () => {
+        Gameboard.ResetGameboard();
+        plays = [];
+        currentTurn = 1;
+        Gameboard.DisplayBoard();
+        return ManagePlay();
+    };
     return {
         AddPlay,
         ManagePlay,
@@ -184,5 +230,5 @@ const GameLogic = (function(){
 
 
 
-console.log(Gameboard.DisplayBoard());
+Gameboard.DisplayBoard();
 GameLogic.ManagePlay();
