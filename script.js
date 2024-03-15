@@ -217,10 +217,29 @@ const GameLogic = (function(){
         Gameboard.DisplayBoard();
         return ManagePlay();
     };
+    const ResetButton = () => {
+        const OptionElement = document.querySelector('.options');
+        const Pushable = document.createElement('button');
+        Pushable.classList.add('pushable');
+        const Shadow = document.createElement('span');
+        Shadow.classList.add('shadow');
+        const Edge = document.createElement('span');
+        Edge.classList.add('edge');
+        const Front = document.createElement('span');
+        Front.classList.add('front');
+        Front.innerHTML = 'Reset Game';
+
+        Pushable.appendChild(Shadow);
+        Pushable.appendChild(Edge);
+        Pushable.appendChild(Front);
+
+        OptionElement.appendChild(Pushable);
+    }
     return {
         AddPlay,
         ManagePlay,
         PlaceAt,
+        ResetButton,
         players,
         plays
     }
@@ -231,4 +250,5 @@ const GameLogic = (function(){
 
 
 Gameboard.DisplayBoard();
+GameLogic.ResetButton();
 GameLogic.ManagePlay();
