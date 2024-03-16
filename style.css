@@ -25,6 +25,7 @@ h1 {
     align-items: stretch;
     padding: 45px;
     box-sizing: border-box;
+    grid-column-start: 2;
 }
 
 .locationHolder {
@@ -62,7 +63,47 @@ h1 {
 }
 .symbolO {
     background-image: url("./images/ySymbol.svg");
+}
 
+.infoAndBoard {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 30px;
+}
+.infoControls {
+    display: flex;
+    flex-direction:column;
+    gap: 1rem;
+}
+.playerNames {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 20px;
+    background-color: #e9d26f;
+    border-radius: 25px;
+}
+.playerInput {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+}
+.moves{
+    display: flex;
+    flex-direction: column;
+    border-radius: 25px;
+    background-color: #659360;
+    padding: 1rem;
+    gap: .4rem;
+}
+.moves > button {
+    padding: 10px 20px;
+    border-radius: 12px;
+}
+h3 {
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
 }
 
 /* button styles via Josh Comeau*/
