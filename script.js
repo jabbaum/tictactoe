@@ -39,7 +39,7 @@ const Gameboard = (function(){
             return GameLogic.ManagePlay(index);
 
         } else {
-            UpdateInstructions(`Cell ${index} is taken, sorry.`);
+            GameLogic.UpdateInstructions(`Cell ${+index + 1} is taken, sorry.`);
             return null;
         }
     };
@@ -192,15 +192,18 @@ const GameLogic = (function(){
             let introMessage = 'Welcome to Tic Tac Toe. To play, ' + Player1.name + ' must place the first tile ' + Player1.symbol + '.';
             UpdateInstructions(introMessage);
         } else if (plays.length > 0) {
-            changeTurn();
+            let player = players[currentTurn-1];
             if (Gameboard.CheckWinner(index)) {
                 Gameboard.DisplayBoard();
-                UpdateInstructions('Winner! Game Over.');
+                UpdateInstructions(`${player.name} wins! Game Over.`);
                 Gameboard.LockBoard();
-                return ManagePlay();
+                return;
             }
-            let player = players[currentTurn-1];
-            playMessage = `Woo! now it is ${player.name}'s turn! Here is the current board ${Gameboard.DisplayBoard()}`
+            changeTurn();
+            player = players[currentTurn-1];
+            console.log(player);
+            playMessage = `Woo! now it is ${player.name}'s turn! Here is the current board:`;
+            Gameboard.DisplayBoard();
             UpdateInstructions(playMessage);
         }
 
@@ -241,6 +244,7 @@ const GameLogic = (function(){
         ManagePlay,
         PlaceAt,
         ResetButton,
+        UpdateInstructions,
         players,
         plays
     }
