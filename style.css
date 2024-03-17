@@ -74,6 +74,7 @@ h1 {
     display: flex;
     flex-direction:column;
     gap: 1rem;
+    font-family: 'Courier New', Courier, monospace;
 }
 .playerNames {
     display: flex;
@@ -96,15 +97,32 @@ h1 {
     padding: 1rem;
     gap: .4rem;
 }
-.moves > button {
+.infoControls  button, .infoControls input {
     padding: 10px 20px;
     border-radius: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: .9rem;
+}
+.infoControls button {
+    background-color: hsl(345deg 71.75% 54.4%);
+    color: #fff;
+    border: 1px solid #a1a3a1;
+}
+.infoControls button:hover {
+    border: 1px solid #cccfcc;
+    background-color: hsl(345, 81%, 63%);
+}
+.infoControls button:active {
+    background-color: hsl(345, 62%, 46%);
+    border: 1px solid #a1a3a1;
 }
 h3 {
     padding: 0px;
     margin: 0px;
     text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
 }
+
 
 /* button styles via Josh Comeau*/
 .pushable {
