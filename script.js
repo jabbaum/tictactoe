@@ -173,11 +173,87 @@ const GameLogic = (function(){
     players.push(Player1);
     players.push(Player2);
 
+    const UpdatePlayerName = (player, name) => {
+        players[player-1].name = name;
+        return;
+    }
+    const HandlePlayerClick = (event) => {
+        if (event.target.classList[0] === 'submitPlayer1') {
+            let nameHolder = document.querySelector('#player1Name');
+            let name = nameHolder.value;
+            nameHolder.value = '';
+            UpdatePlayerName(1, name);
+        } else if (event.target.classList[0] === 'submitPlayer2') {
+            let nameHolder = document.querySelector('#player2Name');
+            let name = nameHolder.value;
+            nameHolder.value = '';
+            UpdatePlayerName(2, name);
+        } else {
+            return;
+        }
+    }
+    const SetPlaysList = (index) => {
+        plays.length = index;
+        let oldPlays = plays;
+        plays = [];
+        return oldPlays;
+    };
+    const ClearMoveList = () => {
+        let moveHolder = document.querySelector('.moves');
+        let moves = moveHolder.querySelectorAll('.moveBtn');
+        moves.forEach(move => {
+            move.parentNode.removeChild(move);
+        });
+       
+    };
+    const CatchUpPlays = (oldPlays) => {
+        Gameboard.ResetGameboard();
+        Gameboard.DisplayBoard();
+        oldPlays.forEach(element => {
+            let thisSymbol = element[1];
+            let index = element[0];
+            Gameboard.Place(index, thisSymbol);
+        });
+    };
+    const HandleMoveClick = (event) => {
+        let indexofMove = event.target.id;
+        let oldPlays = SetPlaysList(indexofMove);
+        ClearMoveList();
+        CatchUpPlays(oldPlays);
+    };
+    const CreatePlay = (play, playNum) => {
+        let playBtn = document.createElement('button');
+        let playBtnContainer = document.querySelector('.moves');
+        playBtn.id = playNum;
+        playBtn.classList.add('moveBtn');
+        playBtn.innerText = `cell: ${play[0]}, Symbol: ${play[1]}`;
+        playBtn.addEventListener('click', HandleMoveClick);
+        playBtnContainer.appendChild(playBtn); 
+    }
+    const CreateNameButtons = () => {
+        let btnText =  `Accept Name`;
+        const Player1Input = document.querySelector('#player1Input');
+        const Player2Input = document.querySelector('#player2Input');
+        let bttn1 = document.createElement('button');
+        bttn1.classList.add('submitPlayer1');
+        bttn1.innerText = btnText;
+        bttn1.addEventListener('click', HandlePlayerClick);
+        let bttn2 = document.createElement('button');
+        bttn2.classList.add('submitPlayer2');
+        bttn2.innerText = btnText;
+        bttn2.addEventListener('click',HandlePlayerClick);
+        Player1Input.appendChild(bttn1);
+        Player2Input.appendChild(bttn2);
+    }
+
     const IncrementRounds = () => rounds = rounds++;
-    const AddPlay = (play) => plays.push(play);
+    const AddPlay = (play) => {
+        plays.push(play)
+        GameLogic.CreatePlay(play, plays.length);
+    };
     const changeTurn = () => {
-        if(currentTurn == 1) {
-        currentTurn = 2;
+        if (plays[plays.length-1][1] === 'X') {
+            currentTurn = 2;
         } else {
             currentTurn = 1;
         }
@@ -218,6 +294,7 @@ const GameLogic = (function(){
         plays = [];
         currentTurn = 1;
         Gameboard.DisplayBoard();
+        ClearMoveList();
         return ManagePlay();
     };
     const ResetButton = () => {
@@ -245,6 +322,9 @@ const GameLogic = (function(){
         PlaceAt,
         ResetButton,
         UpdateInstructions,
+        HandlePlayerClick,
+        CreateNameButtons,
+        CreatePlay,
         players,
         plays
     }
@@ -256,4 +336,5 @@ const GameLogic = (function(){
 
 Gameboard.DisplayBoard();
 GameLogic.ResetButton();
+GameLogic.CreateNameButtons();
 GameLogic.ManagePlay();
